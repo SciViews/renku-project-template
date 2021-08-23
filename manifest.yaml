@@ -3,7 +3,7 @@
   description: BioDataScience course 2021-2022 at University of Mons, Belgium (R 4.0.5) Project.
   variables:
     description: Short description added at the beginning of the README file (optional)
-    github_pat: Your Personal Access Token to GitHub (create from https://github.com/settings/tokens/new?scopes=repo,user,gist,workflow&description=R:GITHUB_PAT)
+    github_pat: Your Personal Access Token to GitHub (you have to create one first, visit this link: https://github.com/settings/tokens/new?scopes=repo,user,gist,workflow&description=R:GITHUB_PAT)
 - folder: python-minimal
   name: Basic Python (3.9) Project
   description: The simplest Python-3.9-based renku project with a basic directory structure and necessary supporting files.
