@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This Renku project launch a Renku session to work in your BioDataScience Coruse at UMONS (version 2021-2022).
+This Renku project launches a Renku session to work in your BioDataScience Course at UMONS (version 2021-2022).
 
 ## Access of GitHub repositories
 
