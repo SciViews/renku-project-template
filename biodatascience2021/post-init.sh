@@ -30,3 +30,5 @@ fi
 mkdir -p /home/rstudio/.rstudio/projects_settings
 echo /home/rstudio/${CI_PROJECT}/${CI_PROJECT}.Rproj | tee /home/rstudio/.rstudio/projects_settings/next-session-project
 chown -R rstudio:root /home/rstudio/.rstudio/projects_settings
+
+mv /home/rstudio/${CI_PROJECT}/config/credentials /home/rstudio/${CI_PROJECT}/.git/
