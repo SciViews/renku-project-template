@@ -1,1 +1,1 @@
-{{ user_data }}
+{% if user_data %} {{ user_data }} {% endif %}
