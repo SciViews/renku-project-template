@@ -4,7 +4,6 @@
   variables:
     description: Short description added at the beginning of the README file (optional)
     github_pat: Your Personal Access Token to GitHub. You have to create one first, visit this link https://github.com/settings/tokens/new?scopes=repo,user,gist,workflow&description=R:GITHUB_PAT
-    user_information: Your student profile, get it here https://wp.sciviews.org/renku_user_config.html?configure=1
 - folder: python-minimal
   name: Basic Python (3.9) Project
   description: The simplest Python-3.9-based renku project with a basic directory structure and necessary supporting files.
