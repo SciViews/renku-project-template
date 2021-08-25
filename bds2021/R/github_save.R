@@ -22,7 +22,8 @@ renku_rstudio_save <- function(renku_dir) {
     if (!length(mru)) {
       if (fs::file_exists(project_mru_save))
         fs::file_delete(project_mru_save)
-    } else {# There is something to save
+    } else {
+      # There is something to save
       writeLines(mru, project_mru_save)
     }
   }
@@ -42,7 +43,8 @@ renku_rstudio_save <- function(renku_dir) {
   if (!length(project_paths)) {
     if (fs::file_exists(project_paths_save))
       fs::file_delete(project_paths_save)
-  } else {# There are repos to record
+  } else {
+    # There are repos to record
     writeLines(project_paths, project_paths_save)
   }
 
