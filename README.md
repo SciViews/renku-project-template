@@ -1,6 +1,8 @@
 # renku-project-template
 
-A repository of templates for new Renku projects. The next sections outline what different files in the template are used for.
+A repository of templates for new Renku projects. A `bds2021` template was added for Biological Data Science Courses at University of Mons, Belgium, see <http://bds.sciviews.org>.
+
+The next sections outline what different files in the template are used for.
 
 ## For running interactive environments from Renkulab
 
