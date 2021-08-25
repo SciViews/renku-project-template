@@ -3,11 +3,11 @@ install.packages(c("anytime", "assertthat", "backports", "base64enc", "bit",
   "bit64", "blob", "bookdown", "cli", "crayon", "curl", "data.table", "DBI",
   "devtools", "digest", "evaluate", "fansi", "fastmap", "glue", "htmltools",
   "htmlwidgets", "httpuv", "httr", "jsonlite", "knitr", "later", "lattice",
-  "learnr", "magrittr", "markdown", "memoise", "mime", "mongolite", "nanotime",
-  "odbc", "palmerpenguins", "PKI", "promises", "R6", "Rcpp", "RcppCCTZ",
-  "remotes", "rlang", "rmarkdown", "rprojroot", "RSQLite", "sessioninfo",
-  "shiny", "stringi", "stringr", "SuppDists", "vctrs", "withr", "xfun",
-  "xtable", "yaml", "zoo"))
+  "learnr", "lintr", "magrittr", "markdown", "memoise", "microbenchmark",
+  "mime", "mongolite", "nanotime", "odbc", "palmerpenguins", "PKI", "promises",
+  "R6", "Rcpp", "RcppCCTZ", "remotes", "rlang", "rmarkdown", "rprojroot",
+  "RSQLite", "sessioninfo", "shiny", "stringi", "stringr", "SuppDists", "vctrs",
+  "withr", "xfun", "xtable", "yaml", "zoo"))
 
 # SciViews::R
 #remotes::install_github("SciViews/svMisc")
