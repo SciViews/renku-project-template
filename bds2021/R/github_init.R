@@ -17,7 +17,7 @@ rm(creds)
 if (fs::file_exists("config/user_data")) {
   # TODO: sign_in now
   fs::file_move("config/user_data", "config/user_data.save")
-  session_int <- TRUE
+  session_init <- TRUE
 }
 
 # Check the GitHub directory is present
