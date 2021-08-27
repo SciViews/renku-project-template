@@ -66,10 +66,14 @@ RUN apt-get update --fix-missing && \
     libzmq3-dev \
     wget \
     vim \
+    # for mongolite
+    libsasl2-dev \
+    # for keyring
+    #libsecret-1-dev \
     # added for SciViews Box/BioDataScience
     hunspell-en-us \
     hunspell-en-gb \
-    hunspell-fr-modern \
+    hunspell-fr-classical \
     nano && \
     apt-get purge && \
     apt-get clean && \
@@ -127,12 +131,12 @@ RUN echo ". ${CONDA_PATH}/etc/profile.d/conda.sh" >> ~/.bashrc && \
     R --quiet -e "IRkernel::installspec(prefix='${CONDA_PATH}')" && \
     echo "source ~/.bashrc" >> ~/.bash_profile
 
-# install R and python dependencies, and create a directory for GitHub repos
+# install R and python dependencies
 COPY install.R /tmp/
 COPY requirements.txt /tmp/
 RUN R -f /tmp/install.R && \
-    pip3 install -r /tmp/requirements.txt && \
-    mkdir -p ~/github
+    R --quiet -e "install.packages('webshot'); webshot::install_phantomjs()" && \
+    pip3 install -r /tmp/requirements.txt
 
 COPY post-init.sh /post-init.sh
 ENTRYPOINT [ "/tini", "--", "/entrypoint.sh" ]

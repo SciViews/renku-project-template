@@ -8,11 +8,11 @@ echo $var=${!var} >> ${HOME}/.Renviron
 fi
 done
 
-# add a symlink to the project directory in /home/rstudio
+# Add a symlink to the project directory in /home/rstudio
 [ -n "$CI_PROJECT" ] && ln -s /work/${CI_PROJECT} /home/rstudio
 
 
-# configure rstudio to open the rpath project
+# Configure rstudio to open the rpath project
 if [[ ! -f /home/rstudio/${CI_PROJECT}/${CI_PROJECT}.Rproj ]]; then
 cat > /home/rstudio/${CI_PROJECT}/${CI_PROJECT}.Rproj <<- EOM
 Version: 1.0
@@ -31,4 +31,15 @@ mkdir -p /home/rstudio/.rstudio/projects_settings
 echo /home/rstudio/${CI_PROJECT}/${CI_PROJECT}.Rproj | tee /home/rstudio/.rstudio/projects_settings/next-session-project
 chown -R rstudio:root /home/rstudio/.rstudio/projects_settings
 
+# Record the CI_PROJECT directory somewhere for reuse in R
+echo /home/rstudio/${CI_PROJECT} > /home/rstudio/.config/renkudir
+chown rstudio:rstudio /home/rstudio/.config/renkudir
+
+# Install GitHub credentials
 mv /home/rstudio/${CI_PROJECT}/config/credentials /home/rstudio/${CI_PROJECT}/.git/
+
+# If there is a custom RStudio prefs, install it
+if [[ -f /home/rstudio/${CI_PROJECT}/config/rstudio-prefs-user.json ]]; then
+cp /home/rstudio/${CI_PROJECT}/config/rstudio-prefs-user.json /home/rstudio/.config/rstudio/rstudio-prefs.json
+chown rstudio:rstudio /home/rstudio/.config/rstudio/rstudio-prefs.json
+fi

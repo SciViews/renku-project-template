@@ -13,12 +13,12 @@ if (inherits(creds, "try-error")) {
 } else session_init <- FALSE
 rm(creds)
 
-# Collect user data
-if (fs::file_exists("config/user_data")) {
+# Configure for the first time and collect user data
+if (!fs::dir_exists("~/github")) {
   # TODO: sign_in now
   fs::file_move("config/user_data", "config/user_data.save")
   session_init <- TRUE
-}
+} else session_init <- FALSE
 
 # Check the GitHub directory is present
 if (!fs::dir_exists("~/github"))

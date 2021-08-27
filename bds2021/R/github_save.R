@@ -3,14 +3,14 @@ renku_dir <- fs::path("~/mybox")
 
 renku_rstudio_save <- function(renku_dir) {
   # The directory where to place the configuration
-  renku_rstudio <- fs::path(renku_dir, "rstudio")
-  if (!fs::dir_exists(renku_rstudio))
-    fs::dir_create(renku_rstudio)
+  config_dir <- fs::path(renku_dir, "config")
+  if (!fs::dir_exists(config_dir))
+    fs::dir_create(config_dir)
 
   # Record RStudio configuration in my repo
   rstudio_conf <- fs::path("~/.config/rstudio/rstudio-prefs.json")
   if (fs::file_exists(rstudio_conf))
-    fs::file_copy(rstudio_conf, fs::path(renku_rstudio, "rstudio-prefs.json"),
+    fs::file_copy(rstudio_conf, fs::path(config_dir, "rstudio-prefs-user.json"),
       overwrite = TRUE)
 
   # Record project MRU (only for ~/github/ items)
@@ -18,7 +18,7 @@ renku_rstudio_save <- function(renku_dir) {
   if (fs::file_exists(project_mru)) {
     mru <- readLines(project_mru)
     mru <- mru[grepl("^~/github/", mru)]
-    project_mru_save <- fs::path(renku_rstudio, "project_mru")
+    project_mru_save <- fs::path(config_dir, "project_mru")
     if (!length(mru)) {
       if (fs::file_exists(project_mru_save))
         fs::file_delete(project_mru_save)
@@ -39,7 +39,7 @@ renku_rstudio_save <- function(renku_dir) {
         paste(dir, remote_url, sep = "|")
       }
     }))
-  project_paths_save <- fs::path(renku_rstudio, "project_paths")
+  project_paths_save <- fs::path(config_dir, "project_paths")
   if (!length(project_paths)) {
     if (fs::file_exists(project_paths_save))
       fs::file_delete(project_paths_save)
