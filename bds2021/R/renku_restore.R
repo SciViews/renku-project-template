@@ -1,5 +1,5 @@
 # Initialize the Renku session (and restore RStudio configuration and projects)
-renku_rstudio_restore <- function() {
+renku_restore <- function() {
   # Get the root directory of the Renku/GitLab project
   renku_get_dir <- function() {
     if (fs::file_exists("~/.config/renkudir")) {
@@ -67,12 +67,98 @@ renku_rstudio_restore <- function() {
     }
   }
 
+  # Check the configuration is fine
+  check_config <- function() {
+    ok <- TRUE
+
+    # Check if the user is registered
+    cat("- Checking user data...\n")
+    user_data <- BioDataScience::sign_in()
+    if (is.null(user_data)) {
+      message("PROBLEM: no user data!")
+      ok <- FALSE
+    }
+    if (!is.list(user_data)) {
+      message("PROBLEM: wrong user data (not a list, but a ", class(user_data)[1])
+      ok <- FALSE
+    } else {
+      # Check that all required fields are present in user data
+      required_items <- c("login", "email", "iemail", "iid", "ifirstname",
+        "ilastname", "institution", "icourse", "iurl", "iref", "ictitle")
+      are_there <- required_items %in% names(user_data)
+      if (any(!are_there)) {
+        message("PROBLEM: missing data: ",
+          paste(required_items[!are_there], collapse = ", "))
+        ok <- FALSE
+      }
+    }
+
+    # Check the course user matches the git user and committer
+    cat("- Check git configuration...\n")
+    # We need GIT_AUTHOR_NAME and GIT_COMMITTER_NAME, and they must be the same
+    author <- Sys.getenv("GIT_AUTHOR_NAME")
+    if (author == "") {
+      message("PROBLEM: no git author name")
+      ok <- FALSE
+    }
+    committer <- Sys.getenv("GIT_COMMITTER_NAME")
+    if (committer != author) {
+      message("PROBLEM: committer (", committer, ") is not the same as author (",
+        author, ")")
+      ok <- FALSE
+    }
+    # Author must match iforstname and ilastname of the user
+    author2 <- paste(user_data$ifirstname, user_data$ilastname)
+    if (tolower(author2) != tolower(author)) {
+      message("PROBLEM: git author (", author, ") does not match course user (",
+        author2, ")")
+      ok <- FALSE
+    }
+    # Check there is an email address for the git user
+    email <- Sys.getenv("EMAIL")
+    if (email == "") {
+      message("PROBLEM: no git email address")
+      ok <- FALSE
+    }
+    # Check it matches user_data email or iemail
+    if (tolower(email) != tolower(user_data$email) &&
+        tolower(email) != tolower(user_data$iemail)) {
+      message("PROBLEM: git user email (", email,
+        ") does not match Wordpress or UMONS user email")
+      ok <- FALSE
+    }
+
+    # Check the GitHub token is valid
+    if (gh::gh_rate_limit()$limit < 5000) {
+      message("PROBLEM: the GitHub Personal Access Token is not valid (any more)")
+      ok <- FALSE
+    }
+
+    # Verify course configuration
+    cat("- Check course configuration...\n")
+    # Check we have a password
+    if (Sys.getenv("BioDataScience-Course_2021") == "") {
+      message("PROBLEM: no password recorded for the course")
+      ok <- FALSE
+      # This function configures the system to access the MongoDB database
+      # and check it works
+      res <- BioDataScience::config()
+      if (!res) {
+        message("PROBLEM: cannot access the database to record exercises")
+        print(res)
+        ok <- FALSE
+      }
+    }
+
+    # Return the result
+    return(invisible(ok))
+  }
+
   # Display a welcome message
-  svbox_welcome <- function() {
+  svbox_welcome <- function(clear = TRUE) {
     setwd("~/github")
-    invisible(rstudioapi::executeCommand("consoleClear", quiet = TRUE))
-    # This does not work (need to trigger it later on)
-    #invisible(rstudioapi::executeCommand("goToWorkingDir", quiet = TRUE))
+    if (isTRUE(clear))
+      invisible(rstudioapi::executeCommand("consoleClear", quiet = TRUE))
     later::later(function()
       invisible(rstudioapi::executeCommand("goToWorkingDir", quiet = TRUE)), 1)
     invisible(rstudioapi::executeCommand("activateTutorial", quiet = TRUE))
@@ -86,8 +172,12 @@ renku_rstudio_restore <- function() {
     cat(R.version.string, "- `licence()` pour plus de détails.\n")
     cat("\nVérifiez votre identité :\n\n")
     message("- Utilisateur : ", Sys.getenv("GIT_AUTHOR_NAME"), " (", Sys.getenv("EMAIL"), ")")
-    message("- Committeur :  ", Sys.getenv("GIT_COMMITTER_NAME"), " (GitHub PAT valide)")
-    message("- Cours : Science des Données I: visualisation (UMONS)")
+    ictitle <- BioDataScience::sign_in()$ictitle
+    if (is.null(ictitle)) {
+      message("- Cours : INCONNU !!!")
+    } else {
+      message("- Cours : ", ictitle)
+    }
     cat("\nSi ces données sont incorrectes, contactez directement vos enseignants\n")
     cat("par mail (", cli::col_blue("sdd@sciviews.org"), "). Ne travaillez jamais dans un environnement\n", sep = "")
     cat("qui n'est pas le votre, ou qui renseigne votre identité de manière\n")
@@ -158,10 +248,11 @@ renku_rstudio_restore <- function() {
   # TODO...
 
   # Check everything is OK and display the welcome message
-  # TODO: check_user_data()
-  svbox_welcome()
+  res <- check_config()
+  # If everything is fine, remove user_data
+  if (isTRUE(res))
+    unlink(fs::path(config_dir, "user_data"))
+  svbox_welcome(res)
 
-  return(invisible(TRUE)) # Session initialized
+  return(invisible(res))
 }
-
-renku_rstudio_restore(); rm(renku_rstudio_restore)

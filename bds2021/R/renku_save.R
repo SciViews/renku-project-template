@@ -1,5 +1,5 @@
 # Save RStudio configuration for the Renku session
-renku_rstudio_save <- function(renku_dir = NULL) {
+renku_save <- function(renku_dir = NULL) {
   # Get the root directory of the Renku/GitLab project
   renku_get_dir <- function() {
     if (fs::file_exists("~/.config/renkudir")) {
@@ -65,5 +65,3 @@ renku_rstudio_save <- function(renku_dir = NULL) {
   on.exit(setwd(odir))
   system("renku save")
 }
-
-renku_rstudio_save();rm(renku_studio_save)

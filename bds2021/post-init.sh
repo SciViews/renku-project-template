@@ -41,6 +41,12 @@ chown rstudio:rstudio /home/rstudio/.config/renkudir
 # Install GitHub credentials
 mv /home/rstudio/${CI_PROJECT}/config/credentials /home/rstudio/${CI_PROJECT}/.git/
 
+# Install latest r.snippets
+if [[ -f /home/rstudio/${CI_PROJECT}/config/snippets/r.snippets ]]; then
+cp /home/rstudio/${CI_PROJECT}/config/snippets/r.snippets /home/rstudio/.config/rstudio/snippets/r.snippets
+chown rstudio:rstudio /home/rstudio/.config/rstudio/snippets/r.snippets
+fi
+
 # If there is a custom RStudio prefs, install it
 if [[ -f /home/rstudio/${CI_PROJECT}/config/rstudio-prefs-user.json ]]; then
 cp /home/rstudio/${CI_PROJECT}/config/rstudio-prefs-user.json /home/rstudio/.config/rstudio/rstudio-prefs.json
