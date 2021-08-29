@@ -159,8 +159,12 @@ renku_restore <- function() {
     setwd("~/github")
     if (isTRUE(clear))
       invisible(rstudioapi::executeCommand("consoleClear", quiet = TRUE))
-    later::later(function()
-      invisible(rstudioapi::executeCommand("goToWorkingDir", quiet = TRUE)), 1)
+    # Move to ~/github in the Files tab and clean up the global environment
+    later::later(function() {
+        invisible(rstudioapi::executeCommand("goToWorkingDir", quiet = TRUE))
+        res <- try(rm(renku_restore, envir = .GlobalEnv), silent = TRUE)
+        res <- try(rm(renku_save, envi = .GlobalEnv), silent = TRUE)
+      }, 1)
     invisible(rstudioapi::executeCommand("activateTutorial", quiet = TRUE))
     #Sys.sleep(0.5)
     #invisible(rstudioapi::executeCommand("layoutEndZoom", quiet = TRUE))
