@@ -43,6 +43,7 @@ mv /home/rstudio/${CI_PROJECT}/config/credentials /home/rstudio/${CI_PROJECT}/.g
 
 # Install latest r.snippets
 if [[ -f /home/rstudio/${CI_PROJECT}/config/snippets/r.snippets ]]; then
+mkdir -p /home/rstudio/.config/rstudio/snippets
 cp /home/rstudio/${CI_PROJECT}/config/snippets/r.snippets /home/rstudio/.config/rstudio/snippets/r.snippets
 chown rstudio:rstudio /home/rstudio/.config/rstudio/snippets/r.snippets
 fi
