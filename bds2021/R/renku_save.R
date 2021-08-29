@@ -1,7 +1,19 @@
-# TODO: save the directory from where I started somewhere
-renku_dir <- fs::path("~/mybox")
+# Save RStudio configuration for the Renku session
+renku_rstudio_save <- function(renku_dir = NULL) {
+  # Get the root directory of the Renku/GitLab project
+  renku_get_dir <- function() {
+    if (fs::file_exists("~/.config/renkudir")) {
+      renku_dir <- readLines("~/.config/renkudir")[1]
+    } else {
+      # Use reasonable default value
+      renku_dir <- "~/mybox"
+    }
+  }
 
-renku_rstudio_save <- function(renku_dir) {
+  # The Renku/GitLab root directory
+  if (is.null(renku_dir))
+    renku_dir <- renku_get_dir()
+
   # The directory where to place the configuration
   config_dir <- fs::path(renku_dir, "config")
   if (!fs::dir_exists(config_dir))
@@ -53,3 +65,5 @@ renku_rstudio_save <- function(renku_dir) {
   on.exit(setwd(odir))
   system("renku save")
 }
+
+renku_rstudio_save();rm(renku_studio_save)
