@@ -95,7 +95,7 @@ renku_rstudio_restore <- function() {
     cli::cli_rule()
     cat("Créez un nouveau projet ou ouvrez-en un dans le menu en haut à droite en\n")
     cat("dessous de 'rstudio' pour travailler. N'éditez pas vos fichiers directement\n")
-    cat("dans les dossiers 'mybox' ou 'work/mybox', mais travaillez toujours dans un\n")
+    cat("dans les dossiers '{{ __sanitized_project_name__ }}' ou 'work/{{ __sanitized_project_name__ }}', mais travaillez toujours dans un\n")
     cat("projet GitHub pour le cours de Science des Données, et n'oubliez pas vos\n")
     cat("'commits et pushes réguliers et au moins en fin de session, toujours !\n")
     cat("En cas d'erreur 403, rafraichissez la page dans le browser pour continuer.\n")
