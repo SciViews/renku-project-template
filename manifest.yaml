@@ -2,7 +2,8 @@
   name: BioDataScience course 2021-2022 Project
   description: BioDataScience course 2021-2022 at University of Mons, Belgium (R 4.0.5) Project.
   variables:
-    description: Short description added at the beginning of the README file (optional)
+    description: Short description added at the beginning of the README file (optional).
+    course_password: The password required to login in and record your progression in the course.
     user_data: Your student profile, get it here https://wp.sciviews.org/renku_user_config.html?configure=1
     github_pat: Your Personal Access Token to GitHub. You have to create one first, visit this link https://github.com/settings/tokens/new?scopes=repo,user,gist,workflow&description=R:GITHUB_PAT
 - folder: python-minimal

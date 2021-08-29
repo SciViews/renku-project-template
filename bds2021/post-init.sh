@@ -1,12 +1,15 @@
 #!/bin/bash
 
 # Copy the relevant system environment variables to the R-specific locations
-VariableArray=("GIT_COMMITTER_NAME"  "GIT_AUTHOR_NAME"  "EMAIL")
-for var in ${VariableArray[*]}; do
-if [ -n "${!var}" ]; then
-echo $var=${!var} >> ${HOME}/.Renviron
-fi
-done
+#VariableArray=("GIT_COMMITTER_NAME"  "GIT_AUTHOR_NAME"  "EMAIL")
+#for var in ${VariableArray[*]}; do
+#if [ -n "${!var}" ]; then
+#echo $var=${!var} >> ${HOME}/.Renviron
+#fi
+#done
+
+# Add the course password to the same file
+echo BioDataScience-Course_2021="{{ course_password }}" >> ${HOME}/.Renviron
 
 # Add a symlink to the project directory in /home/rstudio
 [ -n "$CI_PROJECT" ] && ln -s /work/${CI_PROJECT} /home/rstudio
