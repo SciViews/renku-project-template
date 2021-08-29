@@ -3,10 +3,10 @@ renku_rstudio_save <- function(renku_dir = NULL) {
   # Get the root directory of the Renku/GitLab project
   renku_get_dir <- function() {
     if (fs::file_exists("~/.config/renkudir")) {
-      renku_dir <- readLines("~/.config/renkudir")[1]
+      trimws(readLines("~/.config/renkudir")[1])
     } else {
       # Use reasonable default value
-      renku_dir <- "~/mybox"
+      "~/mybox"
     }
   }
 

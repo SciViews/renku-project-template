@@ -3,10 +3,10 @@ renku_rstudio_restore <- function() {
   # Get the root directory of the Renku/GitLab project
   renku_get_dir <- function() {
     if (fs::file_exists("~/.config/renkudir")) {
-      renku_dir <- readLines("~/.config/renkudir")[1]
+      readLines("~/.config/renkudir")[1]
     } else {
       # Use reasonable default value
-      renku_dir <- "~/mybox"
+      "~/mybox"
     }
   }
 
@@ -71,9 +71,12 @@ renku_rstudio_restore <- function() {
   svbox_welcome <- function() {
     setwd("~/github")
     invisible(rstudioapi::executeCommand("consoleClear", quiet = TRUE))
-    invisible(rstudioapi::executeCommand("goToWorkingDir", quiet = TRUE))
+    # This does not work (need to trigger it later on)
+    #invisible(rstudioapi::executeCommand("goToWorkingDir", quiet = TRUE))
+    later::later(function()
+      invisible(rstudioapi::executeCommand("goToWorkingDir", quiet = TRUE)), 1)
     invisible(rstudioapi::executeCommand("activateTutorial", quiet = TRUE))
-    Sys.sleep(0.5)
+    #Sys.sleep(0.5)
     #invisible(rstudioapi::executeCommand("layoutEndZoom", quiet = TRUE))
     #Sys.sleep(0.5)
     #invisible(rstudioapi::executeCommand("layoutZoomConsole", quiet = TRUE))
@@ -91,10 +94,10 @@ renku_rstudio_restore <- function() {
     cat("incorrecte ou incomplète !\n\n")
     cli::cli_rule()
     cat("Créez un nouveau projet ou ouvrez-en un dans le menu en haut à droite en\n")
-    cat("dessous de 'rstudio' pour travailler dans votre box. Si elle est affichée\n")
-    cat("dans un encadré dans Renku, vous devez absolument la basculer pleine page\n")
-    cat("en cliquant à droite du bouton 'Stop' sur les 3 points et en sélectionnant\n")
-    cat("'Open in new tab'. Ne travaillez pas dans l'encadré directement !\n")
+    cat("dessous de 'rstudio' pour travailler. N'éditez pas vos fichiers directement\n")
+    cat("dans les dossiers 'mybox' ou 'work/mybox', mais travaillez toujours dans un\n")
+    cat("projet GitHub pour le cours de Science des Données, et n'oubliez pas vos\n")
+    cat("'commits et pushes réguliers et au moins en fin de session, toujours !\n")
     cat("En cas d'erreur 403, rafraichissez la page dans le browser pour continuer.\n")
     cat("\nVoyez le cours en ligne à", cli::col_blue("https://wp.sciviews.org"), "pour plus d'infos.\n\n")
   }
@@ -126,18 +129,18 @@ renku_rstudio_restore <- function() {
   # sign in the user for BioDataScience
   user_data_file <- fs::path(config_dir, "user_data")
   if (fs::file_exists(user_data_file)) {
-    sign_in_bds(readLines(user_data_file)[1])
+    sign_in_bds(trimws(readLines(user_data_file, warn = FALSE))[1])
   }
 
   # Restore GitHub projects
   paths_file <- fs::path(config_dir, "project_paths")
   if (fs::file_exists(paths_file)) {
     # Restore GitHub repositories
-    paths_data <- readLines(paths_file)
+    paths_data <- readLines(paths_file, warn = FALSE)
     for (path in paths_data) {
       # Must be dir|remote_url
       if (grepl("|", path)) {
-        path_data <- strsplit(path, "|", fixed = TRUE)[[1]]
+        path_data <- strsplit(trimws(path), "|", fixed = TRUE)[[1]]
         github_restore(url = path_data[2], dir = path_data[1])
       }
     }
