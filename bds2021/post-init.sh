@@ -39,17 +39,24 @@ echo /home/rstudio/${CI_PROJECT} > /home/rstudio/.config/renkudir
 chown rstudio:rstudio /home/rstudio/.config/renkudir
 
 # Install GitHub credentials
-mv /home/rstudio/${CI_PROJECT}/config/credentials /home/rstudio/${CI_PROJECT}/.git/
+# TODO: detect if there is something in it
+cp /home/rstudio/${CI_PROJECT}/config/credentials /home/rstudio/${CI_PROJECT}/.git/
 
 # Install latest r.snippets
-if [[ -f /home/rstudio/${CI_PROJECT}/config/snippets/r.snippets ]]; then
+if [[ -f /home/rstudio/${CI_PROJECT}/.config/snippets/r.snippets ]]; then
 mkdir -p /home/rstudio/.config/rstudio/snippets
-cp /home/rstudio/${CI_PROJECT}/config/snippets/r.snippets /home/rstudio/.config/rstudio/snippets/r.snippets
+cp /home/rstudio/${CI_PROJECT}/.config/snippets/r.snippets /home/rstudio/.config/rstudio/snippets/r.snippets
 chown rstudio:rstudio /home/rstudio/.config/rstudio/snippets/r.snippets
 fi
 
 # If there is a custom RStudio prefs, install it
-if [[ -f /home/rstudio/${CI_PROJECT}/config/rstudio-prefs-user.json ]]; then
-cp /home/rstudio/${CI_PROJECT}/config/rstudio-prefs-user.json /home/rstudio/.config/rstudio/rstudio-prefs.json
+if [[ -f /home/rstudio/${CI_PROJECT}/.config/rstudio-prefs-user.json ]]; then
+cp /home/rstudio/${CI_PROJECT}/.config/rstudio-prefs-user.json /home/rstudio/.config/rstudio/rstudio-prefs.json
 chown rstudio:rstudio /home/rstudio/.config/rstudio/rstudio-prefs.json
+fi
+
+# Install a user-level .Rprofile file
+if [[ -f /home/rstudio/${CI_PROJECT}/.config/.Rprofile ]]; then
+cp /home/rstudio/${CI_PROJECT}/.config/.Rprofile /home/rstudio/.Rprofile
+chown rstudio:rstudio /home/rstudio/.Rprofile
 fi
