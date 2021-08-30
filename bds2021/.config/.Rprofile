@@ -254,7 +254,8 @@ setHook("rstudio.sessionInit", function(newSession) {
         cat("\n")
         cat(R.version.string, "- `licence()` pour plus de détails.\n")
         cat("\nVérifiez votre identité :\n\n")
-        message("- Utilisateur : ", Sys.getenv("GIT_AUTHOR_NAME"), " (", Sys.getenv("EMAIL"), ")")
+        message("- Utilisateur : ", Sys.getenv("GIT_AUTHOR_NAME"), " (",
+          Sys.getenv("EMAIL"), ")")
         ictitle <- BioDataScience::sign_in()$ictitle
         if (is.null(ictitle)) {
           message("- Cours : INCONNU !!!")
@@ -262,7 +263,8 @@ setHook("rstudio.sessionInit", function(newSession) {
           message("- Cours : ", ictitle)
         }
         cat("\nSi ces données sont incorrectes, contactez directement vos enseignants\n")
-        cat("par mail (", cli::col_blue("sdd@sciviews.org"), "). Ne travaillez jamais dans un environnement\n", sep = "")
+        cat("par mail (", cli::col_blue("sdd@sciviews.org"),
+          "). Ne travaillez jamais dans un environnement\n", sep = "")
         cat("qui n'est pas le votre, ou qui renseigne votre identité de manière\n")
         cat("incorrecte ou incomplète !\n\n")
         cli::cli_rule()
@@ -272,7 +274,8 @@ setHook("rstudio.sessionInit", function(newSession) {
         cat("projet GitHub pour le cours de Science des Données, et n'oubliez pas vos\n")
         cat("\"commits\" et \"pushes\" réguliers et au moins en fin de session, toujours !\n")
         cat("En cas d'erreur 403, rafraichissez la page dans le browser pour continuer.\n")
-        cat("\nVoyez le cours en ligne à", cli::col_blue("https://wp.sciviews.org"), "pour plus d'infos.\n\n")
+        cat("\nVoyez le cours en ligne à",
+          cli::col_blue("https://wp.sciviews.org"), "pour plus d'infos.\n\n")
       }
 
       # Get Renku project root directory
