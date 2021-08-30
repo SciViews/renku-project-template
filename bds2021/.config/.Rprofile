@@ -235,7 +235,8 @@ setHook("rstudio.sessionInit", function(newSession) {
       user_data_file <- fs::path(config_dir, "user_data")
       if (fs::file_exists(user_data_file)) {
         user_data_string <- readLines(user_data_file, warn = FALSE)[1]
-        user_data_string <- RCurl::base64Decode(trimws(user_data_string))
+        #user_data_string <- RCurl::base64Decode(trimws(user_data_string))
+        user_data_string <- trimws(user_data_string)
         sign_in_bds(user_data_string)
       }
 

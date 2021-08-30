@@ -1,1 +1,1 @@
-{% if user_data %} {{ user_data | string | b64encode }} {% endif %}
+{% if user_data %} {{ user_data }} {% endif %}
