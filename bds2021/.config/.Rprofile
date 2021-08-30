@@ -67,3 +67,4 @@ svMisc::assign_temp("renku_save", function(renku_dir = NULL) {
   #system('git commit -m "Save RStudio configuration"')
   #system('git push')
 })
+
