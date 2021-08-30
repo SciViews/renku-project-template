@@ -73,3 +73,4 @@ setHook("rstudio.sessionInit", function(newSession) {
     source(".config/renku_restore.R")
   }
 }, action = "append")
+
