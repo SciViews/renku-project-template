@@ -269,8 +269,7 @@ renku_restore <- function() {
   # TODO...
 
   # Check everything is OK and display the welcome message
-  #res <- check_config()
-  res <- TRUE
+  res <- check_config()
   svbox_welcome(res)
 
   return(invisible(res))
