@@ -1,4 +1,4 @@
-svMisc::assign_temp("renku_save", function(renku_dir = NULL) {
+svMisc::assign_temp("renku_save", function(renku_dir = NULL, commit = TRUE) {
   # Get the root directory of the Renku/GitLab project
   renku_get_dir <- function() {
     if (fs::file_exists("~/.config/renkudir")) {
@@ -62,15 +62,20 @@ svMisc::assign_temp("renku_save", function(renku_dir = NULL) {
   # Save the new config
   odir <- setwd(renku_dir)
   on.exit(setwd(odir))
-  system("renku save")
-  #system('git add .')
-  #system('git commit -m "Save RStudio configuration"')
-  #system('git push')
+
+  if (isTRUE(commit)) {
+    system("renku save")
+    #system('git add .')
+    #system('git commit -m "Save RStudio configuration"')
+    #system('git push')
+  }
 })
 
 setHook("rstudio.sessionInit", function(newSession) {
   if (newSession) {
     source(".config/renku_restore.R")
+    #source(".config/renku_backup_config.R")
+    renku_save(commit = FALSE)
   }
 }, action = "append")
 
