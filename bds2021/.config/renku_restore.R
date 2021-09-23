@@ -213,7 +213,7 @@ renku_restore <- function() {
   # Restore credential file
   creds_file <- fs::path(config_dir, "credentials")
   if (fs::file_exists(creds_file))
-    fs::file.copy(creds_file, fs::path(renku_dir, ".git", "credentials"),
+    fs::file_copy(creds_file, fs::path(renku_dir, ".git", "credentials"),
       overwrite = TRUE)
 
   # Check and ask for credentials using gitcreds or credentials
