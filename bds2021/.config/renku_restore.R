@@ -93,7 +93,7 @@ renku_restore <- function() {
     }
 
     # Check the course user matches the git user and committer
-    cat("- Check git configuration...\n")
+    cat("- Checking git configuration...\n")
     # We need GIT_AUTHOR_NAME and GIT_COMMITTER_NAME, and they must be the same
     author <- Sys.getenv("GIT_AUTHOR_NAME")
     if (author == "") {
@@ -209,6 +209,12 @@ renku_restore <- function() {
   # Get Renku project root directory
   renku_dir <- renku_get_dir()
   config_dir <- fs::path(renku_dir, ".config")
+
+  # Restore credential file
+  creds_file <- fs::path(config_dir, "credentials")
+  if (fs::file_exists(creds_file))
+    fs::file.copy(creds_file, fs::path(renku_dir, ".git", "credentials"),
+      overwrite = TRUE)
 
   # Check and ask for credentials using gitcreds or credentials
   #invisible(credentials::git_credential_ask())
