@@ -2,7 +2,7 @@ renku_restore <- function() {
   # Get the root directory of the Renku/GitLab project
   renku_get_dir <- function() {
     if (fs::file_exists("~/.config/renkudir")) {
-      readLines("~/.config/renkudir")[1]
+      readLines("~/.config/renkudir", warn = FALSE)[1]
     } else {
       # Use reasonable default value
       "~/mybox"
@@ -239,7 +239,8 @@ renku_restore <- function() {
   # sign in the user for BioDataScience
   user_data_file <- fs::path(config_dir, "user_data")
   if (fs::file_exists(user_data_file)) {
-    user_data_string <- readLines(user_data_file, warn = FALSE)[1]
+    user_data_string <- trimws(readLines(
+      user_data_file, warn = FALSE)[1])
     if (substring(user_data_string, 1, 8) == "sign_in=") {
       user_data_string <- trimws(user_data_string)
     } else {
