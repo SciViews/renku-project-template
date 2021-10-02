@@ -2,7 +2,7 @@ renku_restore <- function() {
   # Get the root directory of the Renku/GitLab project
   renku_get_dir <- function() {
     if (fs::file_exists("~/.config/renkudir")) {
-      readLines("~/.config/renkudir", warn = FALSE)[1]
+      trimws(readLines("~/.config/renkudir", warn = FALSE)[1])
     } else {
       # Use reasonable default value
       "~/mybox"
@@ -110,8 +110,8 @@ renku_restore <- function() {
       if (!is.null(user_data)) {
         author2 <- paste(user_data$ifirstname, user_data$ilastname)
         if (tolower(author2) != tolower(author)) {
-          message("PROBLEM: git author (", author, ") does not match course user (",
-            author2, ")")
+          message("PROBLEM: git author (", author,
+            ") does not match course user (", author2, ")")
           ok <- FALSE
         }
       }

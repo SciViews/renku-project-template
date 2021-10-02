@@ -4,7 +4,7 @@
 #  # Get the root directory of the Renku/GitLab project
 #  renku_get_dir <- function() {
 #    if (fs::file_exists("~/.config/renkudir")) {
-#      trimws(readLines("~/.config/renkudir")[1])
+#      trimws(readLines("~/.config/renkudir", warn = FALSE)[1])
 #    } else {
 #      # Use reasonable default value
 #      "~/mybox"
@@ -39,7 +39,7 @@
 #  # Record project MRU (only for ~/github/ items)
 #  project_mru <- fs::path("~/.rstudio/monitored/lists/project_mru")
 #  if (fs::file_exists(project_mru)) {
-#    mru <- readLines(project_mru)
+#    mru <- readLines(project_mru, warn = FALSE)
 #    mru <- mru[grepl("^~/github/", mru)]
 #    project_mru_save <- fs::path(config_dir, "project_mru")
 #    if (!length(mru)) {
